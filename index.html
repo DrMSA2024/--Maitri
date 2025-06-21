@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maitri - Indian Friendship Explorer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans', sans-serif;
+        }
+
+        :root {
+            --saffron: #FF9933;
+            --white: #FFFFFF;
+            --green: #138808;
+            --blue: #000080;
+            --gold: #D4AF37;
+            --purple: #800080;
+            --teal: #008080;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #f0f8ff 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 153, 51, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(19, 136, 8, 0.05) 0%, transparent 20%);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .header {
+            background: linear-gradient(to right, var(--saffron), var(--white), var(--green));
+            padding: 25px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: var(--blue);
+            margin-bottom: 10px;
+            font-family: 'Noto Serif', serif;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #444;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .religion-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .religion-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--blue);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-container {
+            padding: 12px 25px;
+            background-color: rgba(0, 0, 0, 0.02);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            display: none;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(to right, var(--saffron), var(--green));
+            border-radius: 5px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+
+        .question-counter {
+            text-align: right;
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .quiz-content {
+            padding: 30px;
+            display: none;
+        }
+
+        .start-container {
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .start-title {
+            font-size: 2.2rem;
+            color: var(--blue);
+            margin-bottom: 20px;
+            font-family: 'Noto Serif', serif;
+        }
+
+        .start-description {
+            font-size: 1.1rem;
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .feature {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 12px;
+            padding: 18px;
+            width: 160px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+            color: var(--blue);
+        }
+
+        .feature-title {
+            font-weight: 700;
+            color: var(--blue);
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .start-btn {
+            background: linear-gradient(to right, var(--saffron), var(--green));
+            color: white;
+            border: none;
+            padding: 16px 45px;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 18px rgba(0, 0, 0, 0.15);
+        }
+
+        .question-container {
+            margin-bottom: 25px;
+        }
+
+        .question-title {
+            font-size: 1.4rem;
+            color: var(--blue);
+            margin-bottom: 20px;
+            line-height: 1.4;
+            font-weight: 600;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .question-title .icon {
+            margin-right: 10px;
+            color: var(--saffron);
+            font-size: 1.6rem;
+            min-width: 30px;
+        }
+
+        .scenario {
+            background: linear-gradient(to right, rgba(255, 153, 51, 0.05), rgba(19, 136, 8, 0.05));
+            border-left: 4px solid var(--blue);
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 0 8px 8px 0;
+            color: #0056b3;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.03);
+            position: relative;
+            font-style: italic;
+        }
+
+        .input-container {
+            margin-bottom: 20px;
+        }
+
+        .input-container label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #444;
+            font-size: 1.05rem;
+        }
+
+        .name-input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            transition: all 0.3s;
+        }
+
+        .name-input:focus {
+            border-color: var(--saffron);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 153, 51, 0.2);
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
+
+        .nav-btn {
+            padding: 12px 24px;
+            font-size: 1.05rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            box-shadow: 0 3px 7px rgba(0, 0, 0, 0.08);
+        }
+
+        .prev-btn {
+            background: white;
+            color: var(--blue);
+            border: 2px solid var(--blue);
+        }
+
+        .next-btn {
+            background: linear-gradient(to right, var(--saffron), var(--green));
+            color: white;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.12);
+        }
+
+        .nav-btn:active {
+            transform: translateY(0);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .result-container {
+            text-align: center;
+            padding: 35px 20px;
+            display: none;
+        }
+
+        .result-title {
+            font-size: 2.2rem;
+            color: var(--blue);
+            margin-bottom: 15px;
+            font-family: 'Noto Serif', serif;
+        }
+
+        .result-subtitle {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .friend-type {
+            background: white;
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 20px;
+            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.06);
+            text-align: left;
+            border-top: 4px solid;
+            transition: transform 0.3s;
+        }
+
+        .friend-type:hover {
+            transform: translateY(-3px);
+        }
+
+        .friend-type.compassionate { border-top-color: var(--green); }
+        .friend-type.moral { border-top-color: var(--blue); }
+        .friend-type.trusted { border-top-color: var(--purple); }
+        .friend-type.generous { border-top-color: var(--gold); }
+        .friend-type.spiritual { border-top-color: var(--teal); }
+
+        .type-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .type-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .compassionate .type-icon { background: rgba(19, 136, 8, 0.1); color: var(--green); }
+        .moral .type-icon { background: rgba(0, 0, 128, 0.1); color: var(--blue); }
+        .trusted .type-icon { background: rgba(128, 0, 128, 0.1); color: var(--purple); }
+        .generous .type-icon { background: rgba(212, 175, 55, 0.1); color: var(--gold); }
+        .spiritual .type-icon { background: rgba(0, 128, 128, 0.1); color: var(--teal); }
+
+        .type-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--blue);
+        }
+
+        .friend-name {
+            font-size: 1.6rem;
+            color: var(--blue);
+            margin: 8px 0 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px dashed #eee;
+            font-family: 'Noto Serif', serif;
+        }
+
+        .type-description {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+        }
+
+        .religious-context {
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: 8px;
+            margin-top: 12px;
+            border-left: 3px solid;
+            font-style: italic;
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        .compassionate .religious-context { border-left-color: var(--green); }
+        .moral .religious-context { border-left-color: var(--blue); }
+        .trusted .religious-context { border-left-color: var(--purple); }
+        .generous .religious-context { border-left-color: var(--gold); }
+        .spiritual .religious-context { border-left-color: var(--teal); }
+
+        .restart-btn {
+            background: linear-gradient(to right, var(--saffron), var(--green));
+            color: white;
+            border: none;
+            padding: 14px 40px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .restart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 18px rgba(0, 0, 0, 0.15);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.95rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            background: rgba(0, 0, 0, 0.02);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-quote {
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .developer-credit {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .developer-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--saffron), var(--green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .developer-text {
+            font-weight: 600;
+            color: #444;
+            font-size: 0.95rem;
+        }
+
+        /* Animation classes */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+
+        /* Responsive design */
+        @media (max-width: 650px) {
+            .header h1 { font-size: 2rem; }
+            .question-title { font-size: 1.2rem; }
+            .btn-container { flex-direction: column; gap: 12px; }
+            .nav-btn { width: 100%; justify-content: center; }
+            .feature { width: 100%; max-width: 220px; }
+            .start-title { font-size: 1.8rem; }
+            .result-title { font-size: 1.9rem; }
+            .type-header { flex-direction: column; text-align: center; }
+            .type-icon { margin-right: 0; margin-bottom: 10px; }
+            .developer-credit {
+                flex-direction: column;
+                text-align: center;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>मैत्री - Maitri</h1>
+            <p>Discover Your True Friends Through India's Spiritual Wisdom</p>
+            <div class="religion-icons">
+                <div class="religion-icon"><i class="fas fa-om"></i></div>
+                <div class="religion-icon"><i class="fas fa-star-and-crescent"></i></div>
+                <div class="religion-icon"><i class="fas fa-cross"></i></div>
+                <div class="religion-icon"><i class="fas fa-khanda"></i></div>
+                <div class="religion-icon"><i class="fas fa-dharmachakra"></i></div>
+                <div class="religion-icon"><i class="fas fa-hands-praying"></i></div>
+            </div>
+        </div>
+        
+        <div class="progress-container" id="progress-container">
+            <div class="progress-bar">
+                <div class="progress" id="progress-bar"></div>
+            </div>
+            <div class="question-counter">
+                <span id="current-q">1</span>/<span id="total-q">5</span>
+            </div>
+        </div>
+        
+        <div class="start-container" id="start-container">
+            <h2 class="start-title animate-in">Discover Your True Companions</h2>
+            <p class="start-description animate-in delay-1">
+                "A person is upon the religion of his friend, so let one of you look at whom he befriends."<br>
+                <span style="font-weight: bold; color: var(--blue);">(Islamic Wisdom)</span>
+            </p>
+            <p class="start-description animate-in delay-2">
+                Based on spiritual wisdom from Hindu, Islamic, Christian, Sikh, Buddhist and Jain traditions, this quiz helps you identify the true friends in your life.
+            </p>
+            
+            <div class="features">
+                <div class="feature animate-in delay-3">
+                    <div class="feature-icon">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <div class="feature-title">Universal Values</div>
+                    <p>Resonates across all Indian faiths</p>
+                </div>
+                
+                <div class="feature animate-in delay-4">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="feature-title">Meaningful Scenarios</div>
+                    <p>Real-life friendship situations</p>
+                </div>
+                
+                <div class="feature animate-in delay-5">
+                    <div class="feature-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <div class="feature-title">Beautiful Results</div>
+                    <p>Discover your friendship types</p>
+                </div>
+            </div>
+            
+            <button class="start-btn animate-in delay-3" id="start-btn">
+                <i class="fas fa-play-circle"></i> Begin Friendship Journey
+            </button>
+        </div>
+        
+        <div class="quiz-content" id="quiz-content">
+            <!-- Questions will be inserted here dynamically -->
+        </div>
+        
+        <div class="result-container" id="result-container">
+            <h2 class="result-title">Your Friendship Report</h2>
+            <p class="result-subtitle">Based on spiritual wisdom from India's diverse traditions</p>
+            
+            <div id="friend-results">
+                <!-- Friend type results will be inserted here -->
+            </div>
+            
+            <button class="restart-btn" id="restart-btn">
+                <i class="fas fa-redo"></i> Discover Again
+            </button>
+        </div>
+        
+        <div class="footer">
+            <div class="footer-quote">
+                "The believers, in their mutual kindness, compassion and sympathy, are just like one body." - Sahih al-Bukhari 6011
+            </div>
+            <div class="developer-credit">
+                <div class="developer-avatar">MSA</div>
+                <div class="developer-text">Developed By Dr. MSA @ 2025</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Universal friendship types across Indian religions
+        const friendTypes = {
+            compassionate: {
+                title: "Compassionate Companion",
+                icon: "fas fa-hands-holding-heart",
+                description: "This friend feels your pain as their own and offers comfort without being asked. They embody the spirit of Karuna (compassion) in Hinduism/Buddhism and Rahma (mercy) in Islam.",
+                color: "var(--green)"
+            },
+            moral: {
+                title: "Moral Guide",
+                icon: "fas fa-lightbulb",
+                description: "This friend helps you stay on the righteous path. They reflect the concept of Dharma in Hinduism, Ma'ruf in Islam, and the Christian ideal of speaking truth in love.",
+                color: "var(--blue)"
+            },
+            trusted: {
+                title: "Trusted Confidant",
+                icon: "fas fa-lock",
+                description: "This friend keeps your secrets and never betrays your trust. They embody Amanat (trustworthiness) in Islam, Vishwas in Hinduism, and the Biblical value of faithful friendship.",
+                color: "var(--purple)"
+            },
+            generous: {
+                title: "Generous Helper",
+                icon: "fas fa-gift",
+                description: "This friend gives selflessly without expecting anything in return. They represent Seva in Sikhism, Zakat/Sadaqah in Islam, and Dana in Hindu/Buddhist traditions.",
+                color: "var(--gold)"
+            },
+            spiritual: {
+                title: "Spiritual Friend",
+                icon: "fas fa-pray",
+                description: "This friend helps you grow spiritually and connects you to the divine. They reflect Sakhya Bhakti in Hinduism, Sangha in Buddhism, and spiritual brotherhood in Islam/Christianity.",
+                color: "var(--teal)"
+            }
+        };
+
+        // Religious insights for each friend type
+        const religiousInsights = {
+            compassionate: [
+                "Hindu: 'One who sees all beings in the Self and the Self in all beings does not hate.' - Isa Upanishad",
+                "Islam: 'Show mercy to those on earth, and He who is in heaven will show mercy to you.' - Hadith",
+                "Christian: 'Carry each other's burdens, and in this way you will fulfill the law of Christ.' - Galatians 6:2"
+            ],
+            moral: [
+                "Sikh: 'Truth is high, but higher still is truthful living.' - Guru Granth Sahib",
+                "Hindu: 'Better your own duty though imperfect than another's duty well performed.' - Bhagavad Gita",
+                "Islam: 'Enjoin what is right and forbid what is wrong.' - Quran 3:110"
+            ],
+            trusted: [
+                "Christian: 'A friend loves at all times, and a brother is born for a time of adversity.' - Proverbs 17:17",
+                "Hindu: 'A friend only speaks publicly about the virtues of the other.' - Tulsidasa",
+                "Sikh: 'True friends are those who remain faithful in adversity.' - Guru Granth Sahib"
+            ],
+            generous: [
+                "Buddhist: 'Generosity brings happiness at every stage of its expression.' - Dhammapada",
+                "Islam: 'The believer's shade on the Day of Resurrection will be his charity.' - Hadith",
+                "Christian: 'It is more blessed to give than to receive.' - Acts 20:35"
+            ],
+            spiritual: [
+                "Hindu: 'The wise see with equal vision the learned, the cow, the elephant, the dog and the dog-eater.' - Bhagavad Gita",
+                "Islam: 'All believers are but brothers.' - Quran 49:10",
+                "Sikh: 'I am a friend to all; with all I am at peace.' - Guru Granth Sahib"
+            ]
+        };
+
+        // Culturally diverse quiz questions
+        const quizQuestions = [
+            {
+                question: "Emotional Support",
+                scenario: "When you're going through a difficult time emotionally, who is the first person to notice and offer comfort without being asked?",
+                type: "compassionate"
+            },
+            {
+                question: "Moral Dilemma",
+                scenario: "When you're tempted to compromise your values, who helps you choose the right path?",
+                type: "moral"
+            },
+            {
+                question: "Confidential Matters",
+                scenario: "Who do you trust completely with your deepest secrets, knowing they'll never betray your confidence?",
+                type: "trusted"
+            },
+            {
+                question: "Financial Hardship",
+                scenario: "If you faced unexpected financial difficulties, who would offer help without hesitation or expectation of repayment?",
+                type: "generous"
+            },
+            {
+                question: "Spiritual Guidance",
+                scenario: "When you have doubts about faith or spirituality, who provides guidance while respecting your beliefs?",
+                type: "spiritual"
+            },
+            {
+                question: "Family Crisis",
+                scenario: "During a family emergency, who would drop everything to support you practically and emotionally?",
+                type: "compassionate"
+            }
+        ];
+
+        // DOM elements
+        const startContainer = document.getElementById('start-container');
+        const progressContainer = document.getElementById('progress-container');
+        const quizContent = document.getElementById('quiz-content');
+        const resultContainer = document.getElementById('result-container');
+        const progressBar = document.getElementById('progress-bar');
+        const currentQSpan = document.getElementById('current-q');
+        const totalQSpan = document.getElementById('total-q');
+        const startBtn = document.getElementById('start-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const friendResults = document.getElementById('friend-results');
+
+        // State management
+        let currentQuestion = 0;
+        const userAnswers = {};
+
+        // Initialize quiz
+        function initQuiz() {
+            totalQSpan.textContent = quizQuestions.length;
+            
+            // Show start screen initially
+            startContainer.style.display = 'block';
+            progressContainer.style.display = 'none';
+            quizContent.style.display = 'none';
+            resultContainer.style.display = 'none';
+        }
+
+        // Start the quiz
+        function startQuiz() {
+            startContainer.style.display = 'none';
+            progressContainer.style.display = 'block';
+            quizContent.style.display = 'block';
+            renderQuestion();
+        }
+
+        // Render current question
+        function renderQuestion() {
+            const question = quizQuestions[currentQuestion];
+            currentQSpan.textContent = currentQuestion + 1;
+            
+            // Update progress bar
+            const progressPercent = ((currentQuestion) / quizQuestions.length) * 100;
+            progressBar.style.width = `${progressPercent}%`;
+            
+            // Create question HTML
+            quizContent.innerHTML = `
+                <div class="question-container">
+                    <h2 class="question-title">
+                        <i class="fas fa-question-circle icon"></i>
+                        ${question.question}
+                    </h2>
+                    
+                    <div class="scenario">
+                        ${question.scenario}
+                    </div>
+                    
+                    <div class="input-container">
+                        <label for="friend-name">
+                            <i class="fas fa-user-friends"></i> Enter your friend's name:
+                        </label>
+                        <input type="text" 
+                               class="name-input" 
+                               id="friend-name" 
+                               placeholder="Type your friend's name..."
+                               autocomplete="off">
+                    </div>
+                </div>
+                
+                <div class="btn-container">
+                    <button class="nav-btn prev-btn" id="prev-btn" ${currentQuestion === 0 ? 'disabled' : ''}>
+                        <i class="fas fa-arrow-left"></i> Previous
+                    </button>
+                    <button class="nav-btn next-btn" id="next-btn">
+                        ${currentQuestion === quizQuestions.length - 1 ? 'See Results' : 'Next'} 
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            `;
+            
+            // Focus input field
+            document.getElementById('friend-name')?.focus();
+            
+            // Add event listeners
+            document.getElementById('prev-btn')?.addEventListener('click', goToPrevQuestion);
+            document.getElementById('next-btn')?.addEventListener('click', goToNextQuestion);
+            
+            // Load existing answer if available
+            if (userAnswers[question.type]) {
+                document.getElementById('friend-name').value = userAnswers[question.type];
+            }
+        }
+
+        // Navigation functions
+        function goToPrevQuestion() {
+            if (currentQuestion > 0) {
+                saveAnswer();
+                currentQuestion--;
+                renderQuestion();
+            }
+        }
+
+        function goToNextQuestion() {
+            saveAnswer();
+            
+            if (currentQuestion < quizQuestions.length - 1) {
+                currentQuestion++;
+                renderQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        // Save current answer
+        function saveAnswer() {
+            const friendName = document.getElementById('friend-name')?.value.trim();
+            if (friendName) {
+                const questionType = quizQuestions[currentQuestion].type;
+                userAnswers[questionType] = friendName;
+            }
+        }
+
+        // Show final results
+        function showResults() {
+            quizContent.style.display = 'none';
+            progressContainer.style.display = 'none';
+            resultContainer.style.display = 'block';
+            
+            // Generate results HTML
+            let resultsHTML = '';
+            
+            for (const [type, details] of Object.entries(friendTypes)) {
+                const friendName = userAnswers[type] || 'Not specified';
+                const insights = religiousInsights[type];
+                const randomInsight = insights[Math.floor(Math.random() * insights.length)];
+                
+                resultsHTML += `
+                    <div class="friend-type ${type} animate-in">
+                        <div class="type-header">
+                            <div class="type-icon">
+                                <i class="${details.icon}"></i>
+                            </div>
+                            <h3 class="type-title">${details.title}</h3>
+                        </div>
+                        
+                        <div class="friend-name">${friendName}</div>
+                        
+                        <p class="type-description">
+                            ${details.description}
+                        </p>
+                        
+                        <div class="religious-context">
+                            <i class="fas fa-quote-left"></i> ${randomInsight}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            friendResults.innerHTML = resultsHTML;
+        }
+
+        // Event listeners
+        startBtn.addEventListener('click', startQuiz);
+        restartBtn.addEventListener('click', () => {
+            // Reset state
+            currentQuestion = 0;
+            for (const key in userAnswers) delete userAnswers[key];
+            
+            // Show start screen
+            startContainer.style.display = 'block';
+            progressContainer.style.display = 'none';
+            quizContent.style.display = 'none';
+            resultContainer.style.display = 'none';
+            
+            // Reset progress bar
+            progressBar.style.width = '0%';
+        });
+
+        // Initialize the quiz when page loads
+        window.addEventListener('DOMContentLoaded', initQuiz);
+    </script>
+</body>
+</html>
